@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# This script installs Nginx and sets a custom HTTP response header X-Served-By with the server hostname
+
+# Ignore SC2154 as required by the project
+# shellcheck disable=SC2154
+
+set -euo pipefail
+
+# Install Nginx
+apt-get update -y
+apt-get install -y nginx
+
+# Ensure default site config exists
+if [ ! -f /etc/nginx/sites-available/default ]; then
+  echo "Missing /etc/nginx/sites-available/default — aborting"
+  exit 1
+fi
+
+# Get hostname
+SERVER_NAME=$(hostname)
+
+# Add header line (idempotent)
+if grep -q "add_header X-Served-By" /etc/nginx/sites-available/default; then
+  sed -i "s/^.*add_header X-Served-By.*$/\tadd_header X-Served-By ${SERVER_NAME};/" /etc/nginx/sites-available/default
+else
+  sed -i "s/server_name _;/server_name _;\n\tadd_header X-Served-By ${SERVER_NAME};/" /etc/nginx/sites-available/default
+fi
+
+# Test Nginx config then restart
+nginx -t
+systemctl restart nginx
+
+echo "Nginx configured. Run: curl -sI localhost | grep X-Served-By"

@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# This script installs HAProxy and configures it as a roundrobin load balancer for two web servers
+
+set -euo pipefail
+
+# Placeholder IPs: replace with real server IPs once available
+WEB01_IP="3.87.64.87"
+WEB02_IP="<WEB_02_IP>"
+LB_IP="<LB_IP>"
+
+apt-get update -y
+apt-get install -y haproxy
+
+# Enable HAProxy at boot
+if [ -f /etc/default/haproxy ]; then
+  sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy || true
+fi
+
+# Backup existing config
+if [ -f /etc/haproxy/haproxy.cfg ]; then
+  cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak.$(date +%s)
+fi
+
+# Write HAProxy config
+cat > /etc/haproxy/haproxy.cfg <<EOF
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend http_front
+    bind *:80
+    mode http
+    default_backend http_back
+
+backend http_back
+    mode http
+    balance roundrobin
+    option httpchk GET /
+    server web01 ${WEB01_IP}:80 check
+    server web02 ${WEB02_IP}:80 check
+EOF
+
+# Restart HAProxy
+systemctl restart haproxy
+systemctl enable haproxy
+
+echo "HAProxy configured. Replace <WEB_02_IP> and <LB_IP> with real IPs when available."
