@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Load Balancer Project (ALU)
 
 ## Files
@@ -7,3 +8,6 @@
 ## Usage
 
 1. Ensure server hostnames:
+=======
+SSH Connection
+>>>>>>> b6c69b436299927e7ddb12ea16f0cd8fd91bd4f1

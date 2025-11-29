@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Provide your domain name (replace myschool.tech with yours)
+
+echo "myschool.tech"

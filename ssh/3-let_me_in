@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Add ALU public key to the server's authorized_keys
+
+ssh ubuntu@3.87.64.87 "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
+ssh ubuntu@3.87.64.87 "echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxclFkVMRGRYYWFeH/TwLUteLTcdLTQiEuA8CGn0H6suQFsOFd3zxwUk4r4wNg2C2JP7ygMNmFzyjp2pC1myeyiKNX9mh2TtAYICBKwV/TvoxrktBLdSiti9CWsKISzx/VJ6haaBhPUiECUSOJW/qw+3qbhklcw/Ee/1at+hGWgUPJ/u4YjOTl3eGnE/3N/7aYo7ZrZw2wKT2QBnVmJLGbXepUf4Zo4V7WcvlkI7iX/c6SxuQZauHgpGOBk1Iyt+o8biIyJNTY+IWVthucTZvS/0JqeQGNr9slvtIAXRd9jHMl6VtIW3PK+hUx9RK5oGO8myq2KA79OhsF2NTjxXJMoxyphHXEt/urv/tfDukA3G8v01Dr0elAaN2+lvhqMHyE1satBpKrXfoTqITzxOtqiapqhbNPgwu8IaMQZ+Von0SywzFWS/+Ud3z3HzRLLM8Y/vLcdmYeb1E1sYqhpSjS9hTfTNRg+k0Qnep35JlJ1VWJy8rAiPOKumLiBIdSqQt/If+WcU/QlwcK1Xoc+DhbXVtzX/YSdXsnhShvpoEZbVdc3kngGKEeS/d8MsN+JcW3JdWrKEMFXliXtOo/Kakosj7tS7SUsULRFRp8LNztO2bYQKBVerDJ5QzFj05gIpKPUnzXGC1j/yLIAnzk5MJzVAHbUHLIzlTPwSVaAWwh0w== b.ndekezi@alustudent.com' >> ~/.ssh/authorized_keys"
+ssh ubuntu@3.87.64.87 "chmod 600 ~/.ssh/authorized_keys"

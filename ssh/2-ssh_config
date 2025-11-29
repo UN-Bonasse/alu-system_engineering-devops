@@ -1,0 +1,5 @@
+Host alu-server
+    HostName 3.87.64.87
+    User ubuntu
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
