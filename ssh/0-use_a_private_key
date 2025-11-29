@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-#write a script  that connects to a remote server using a private key
-ssh -i ~/.ssh/school ubuntu@6802-web-01
+# Connect to the server using private key ~/.ssh/school and user ubuntu
+
+ssh -i ~/.ssh/school ubuntu@3.87.64.87

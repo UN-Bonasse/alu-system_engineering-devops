@@ -1,13 +1,13 @@
-# This Puppet script configures the global SSH client config to use a specific private key and disable password authentication
-
-file_line { 'Declare identity file':
-  path  => '/etc/ssh/ssh_config',
-  line  => '    IdentityFile ~/.ssh/school',
-  match => '^ *IdentityFile',
-}
+# Puppet script to configure SSH client to use private key and disable password authentication
 
 file_line { 'Turn off passwd auth':
-  path  => '/etc/ssh/ssh_config',
+  path  => '/home/ubuntu/.ssh/config',
   line  => '    PasswordAuthentication no',
-  match => '^ *PasswordAuthentication',
+  match => 'PasswordAuthentication',
+}
+
+file_line { 'Declare identity file':
+  path  => '/home/ubuntu/.ssh/config',
+  line  => '    IdentityFile ~/.ssh/school',
+  match => 'IdentityFile',
 }
