@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Installs and configures HAProxy as a load balancer for web-01 and web-02
+
+# Update package list
+apt-get update -y
+
+# Install HAProxy
+apt-get install -y haproxy
+
+# Backup HAProxy config
+cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+
+# Replace <WEB_01_IP> and <WEB_02_IP> with real IPs of your web servers
+WEB_01_IP="3.87.64.87"
+WEB_02_IP="WEB_02_IP"  # Replace this with your actual second web server IP
+
+# Configure HAProxy
+cat > /etc/haproxy/haproxy.cfg <<EOF
+global
+    log /dev/log local0
+    maxconn 2000
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web01 $WEB_01_IP:80 check
+    server web02 $WEB_02_IP:80 check
+EOF
+
+# Restart HAProxy
+service haproxy restart
+

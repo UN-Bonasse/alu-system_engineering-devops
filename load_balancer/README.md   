@@ -1,0 +1,22 @@
+# Load Balancer Project
+
+## Project Description
+This project configures a simple web stack with **two web servers** and a **HAProxy load balancer**. It allows requests to be distributed using **round-robin** and adds a custom HTTP header `X-Served-By` to track which web server responds.
+
+## Files
+
+### 0-custom_http_response_header
+- Configures Nginx on a new server
+- Adds `X-Served-By` HTTP header with server hostname
+
+### 1-install_load_balancer
+- Installs HAProxy
+- Configures round-robin load balancing between web-01 and web-02
+- Restart HAProxy service
+
+## Usage
+
+1. Make scripts executable:
+```bash
+chmod +x 0-custom_http_response_header 1-install_load_balancer
+

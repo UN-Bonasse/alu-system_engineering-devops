@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Configures Nginx to add a custom HTTP header X-Served-By with the hostname
+
+# Update package list
+apt-get update -y
+
+# Install Nginx
+apt-get install -y nginx
+
+# Get hostname
+HOSTNAME=$(hostname)
+
+# Backup default config
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Add custom header to server block
+sed -i "/listen 80 default_server;/a \\    add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+
+# Test Nginx config
+nginx -t
+
+# Restart Nginx (using service command because systemd may not run in Codespaces)
+service nginx restart
