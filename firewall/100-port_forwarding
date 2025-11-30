@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# This script configures UFW to forward port 8080 to port 80 on web-01
+
+# Ensure UFW is enabled
+sudo ufw enable
+
+# Allow SSH, HTTP, and HTTPS just in case
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Check if /etc/ufw/before.rules contains NAT rules already
+if ! grep -q "Forward port 8080 to 80" /etc/ufw/before.rules; then
+    # Insert NAT rules for port forwarding before the end of the file
+    sudo sed -i '/^# End required lines$/i \
+# Forward port 8080 to 80\n\
+*nat\n\
+:PREROUTING ACCEPT [0:0]\n\
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80\n\
+COMMIT' /etc/ufw/before.rules
+fi
+
+# Reload UFW to apply the changes
+sudo ufw reload
+
+# Display UFW status
+sudo ufw status verbose
