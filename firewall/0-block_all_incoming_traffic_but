@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# This script configures UFW to block all incoming traffic except SSH (22), HTTP (80), and HTTPS (443)
+
+# Reset UFW to remove any previous rules
+sudo ufw reset
+
+# Deny all incoming connections by default
+sudo ufw default deny incoming
+
+# Allow all outgoing connections
+sudo ufw default allow outgoing
+
+# Allow SSH (port 22)
+sudo ufw allow 22/tcp
+
+# Allow HTTP (port 80)
+sudo ufw allow 80/tcp
+
+# Allow HTTPS (port 443)
+sudo ufw allow 443/tcp
+
+# Enable UFW automatically without prompts
+sudo ufw --force enable
+
+# Show status of UFW to verify the rules
+sudo ufw status verbose
