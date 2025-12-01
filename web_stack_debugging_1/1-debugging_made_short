@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Installs and runs Nginx to listen on port 80 (works in Docker/Codespaces)
+
+sudo apt-get update -y
+sudo apt-get install -y nginx
+sudo mkdir -p /var/www/html
+sudo nginx -g "daemon off;" &
+
