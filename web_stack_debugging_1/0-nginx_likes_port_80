@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Fixes Nginx so it runs and listens on port 80
+
+# Install Nginx if not installed
+apt-get update -y
+apt-get install -y nginx
+
+# Ensure Nginx config directory exists
+mkdir -p /var/www/html
+
+# Start or restart Nginx
+service nginx start || service nginx restart
