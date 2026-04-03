@@ -10,8 +10,7 @@ printf %s "listen 5819-webs
     bind *:80
     mode http
     balance roundrobin
-WEB_01_IP="3.87.64.87"
-WEB_02_IP="WEB_02_IP"  # Replace this with your actual second web server IP
+    server 6802-web-01 	204.236.253.112 check
+    server 6802-web-02  34.226.152.42 check
 " >> /etc/haproxy/haproxy.cfg
 sudo service haproxy restart
-
