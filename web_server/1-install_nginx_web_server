@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
-# Installs Nginx on Ubuntu 16.04, starts the service, and sets a custom index page containing "Holberton School for the win!"
+# Installs nginx and configures it to return "Holberton School for the win!"
 
 # Update package list
 apt-get update -y
 
-# Install Nginx silently
+# Install nginx
 apt-get install -y nginx
 
-# Create the index.html page with the required content
+# Ensure nginx is running
+service nginx start
+
+# Create the required page
 echo "Holberton School for the win!" > /var/www/html/index.html
 
-# Start Nginx (use service or init.d if not running)
-service nginx start || /etc/init.d/nginx start
+# Restart nginx to apply changes
+service nginx restart
