@@ -1,32 +1,15 @@
 #!/usr/bin/env bash
-# Configures nginx to redirect /redirect_me
+# This script configures Nginx to redirect /redirect_me to another page.
 
+# Update and install nginx
 apt-get update -y
-apt-get install -y nginx
+apt-get install nginx -y
 
-# Default page
+# Create a simple web page
 echo "Holberton School for the win!" > /var/www/html/index.html
 
-# Overwrite nginx default config
-cat > /etc/nginx/sites-available/default <<'EOF'
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+# Add redirection in nginx default config
+sed -i '/server_name _;/a\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
-    root /var/www/html;
-    index index.html;
-
-    server_name _;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-}
-EOF
-
-# Restart nginx
+# Restart nginx (without systemctl)
 service nginx restart
