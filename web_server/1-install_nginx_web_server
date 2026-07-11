@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
-# Installs nginx and configures it to return "Holberton School for the win!"
-
-# Update package list
+# Installs and configures nginx to serve a page containing "Holberton School"
 apt-get update -y
-
-# Install nginx
 apt-get install -y nginx
 
-# Ensure nginx is running
+mkdir -p /usr/share/nginx/html
+echo "Holberton School" > /usr/share/nginx/html/index.html
+
 service nginx start
-
-# Create the required page
-echo "Holberton School for the win!" > /var/www/html/index.html
-
-# Restart nginx to apply changes
-service nginx restart
+service nginx reload
