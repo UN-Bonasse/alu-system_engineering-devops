@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Installs and configures nginx to serve a page containing "Holberton School"
+export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y nginx
 
-mkdir -p /usr/share/nginx/html
+mkdir -p /var/www/html
+echo "Holberton School" > /var/www/html/index.html
 echo "Holberton School" > /usr/share/nginx/html/index.html
 
 service nginx start
